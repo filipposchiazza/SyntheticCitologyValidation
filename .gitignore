@@ -1,0 +1,9 @@
+# Python
+__pycache__/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# config file (the template is already in the repo)
+config.py
+
