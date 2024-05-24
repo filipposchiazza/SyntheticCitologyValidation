@@ -185,6 +185,65 @@ class HaralickValidator:
             ax.set_title(self.features_names[i])
             ax.legend(loc='upper right')
 
-
     
 
+    def evaluate_ecdf_differences(self, features1, features2, **kwargs):
+        """Evaluate the differences between the ECDFs of the Haralick texture features.
+
+        Parameters
+        ----------
+        features1 : numpy.ndarray
+            Features extracted from the first dataset.
+        features2 : numpy.ndarray
+            Features extracted from the second dataset.
+        **kwargs : dict
+            Additional arguments to pass to the ECDF
+        """
+        ecdf_diff = {}
+        for i in range(13):
+            ecdf_diff[self.features_names[i]] = ECDFDifference(features1[:, i], features2[:, i], bins=kwargs.get('bins', 10000))
+
+        return ecdf_diff
+    
+
+
+    def plot_ecdf(self, features1, features2, figsize=(20, 20), label1='dataset1', label2='dataset2', **kwargs):
+        """Plot the ECDFs of the Haralick texture features.
+
+        Parameters
+        ----------
+        features1 : numpy.ndarray
+            Features extracted from the first dataset.
+        features2 : numpy.ndarray
+            Features extracted from the second dataset.
+        figsize : tuple, optional
+            Size of the figure. The default is (20, 20).
+        label1 : str, optional
+            Label for the first dataset. The default is 'dataset1'.
+        label2 : str, optional
+            Label for the second dataset. The default is 'dataset2'.
+        **kwargs : dict
+            Additional arguments to pass to the ECDF
+        """
+
+        fig, axs = plt.subplots(4, 4, figsize=figsize)
+        axs[3, 1].axis('off')
+        axs[3, 2].axis('off')
+        axs[3, 3].axis('off')
+
+        for i in range(13):
+            r = i // 4
+            c = i - 4 * r
+            ax = axs[r, c]
+            ecdf1 = ECDF(features1[:, i])
+            ecdf2 = ECDF(features2[:, i])
+            combined_features = np.concatenate([features1[:, i], features2[:, i]])
+            range_min = np.min(combined_features)
+            range_max = np.max(combined_features)
+            x = np.linspace(range_min, range_max, kwargs.get('bins', 10000))
+            ax.plot(x, ecdf1(x), label=label1, color='blue')
+            ax.plot(x, ecdf2(x), label=label2, color='orange')
+            ax.plot(x, np.abs(ecdf1(x) - ecdf2(x)), label='Difference', color='red')
+            ax.set_title(self.features_names[i])
+            ax.legend(loc='best')
+       
