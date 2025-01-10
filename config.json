@@ -1,0 +1,33 @@
+{
+    "data" : {
+        "real_imgs_dir" : "/mnt/local/work/filippo.schiazza/citology_patches_with_masks/CTR",
+        "gen_imgs_dir" : "/mnt/local/work/filippo.schiazza2/gen_imgs/round_2/Syn4Channels/CTR",
+        "batch_size" : 32,
+        "seed" : 123
+    },
+
+    "kid" : {
+        "subset_size" : 100,
+        "device" : "cuda:1",
+        "N" : [2500, 5000, 7500, 10000, 12500, 15000, 17500, 20000],
+        "save_folder" : "/mnt/local/work/filippo.schiazza2/Paper/Metrics/CTR_4_channels"
+
+    },
+
+    "fid" : {
+        "device" : "cuda:1",
+        "N" : [5000, 7500, 10000, 12500, 15000, 17500, 20000, 22500, 25000],
+        "num_experiments" : 20,
+        "save_folder" : "/mnt/local/work/filippo.schiazza2/Paper/Metrics/CTR_4_channels"
+    },
+
+
+    "cell_features" : {
+        "img_dir" : "/mnt/local/work/filippo.schiazza2/gen_imgs/round_2/Syn4Channels/CTR",
+        "num_samples_for_features" : 10000,
+        "seed" : 123,
+        "save_filename" : "/mnt/local/work/filippo.schiazza2/Paper/Features/4Channels_gen_cell_features.csv"
+    }
+
+
+}
